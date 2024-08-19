@@ -9,16 +9,15 @@ print("CREATION DATE: 19/08/24")
 print("LAST MODIFICATION DATE: 19/08/24")
 
 Link = str(input("Inserisci il link dei documenti che ti interessano: \n"))
-if "List.txt" not in os.listdir("C:\Windows\Temp"):
+## Check if the list document is already in the Temp folder
+if "List.txt" not in os.listdir("C:\\Windows\\Temp"):
+    ## If it's the first time using the code, the list will be created
     with open("C:\\Windows\\Temp\\List.txt", "w") as file:
         pass
     file.close()
-else:
-    with open("C:\\Windows\\Temp\\List.txt", "w") as file:
-        file.write(Link)
-    file.close()
 
 def downloadFile(url, downloadPath, fileName):
+    ## Download funtion
     from datetime import datetime
     info = datetime.today().strftime('%Y-%m-%d_%H_%M_%S')
     with open(downloadPath + "\\" + (fileName.replace('.pdf', '')) + "_" + str(info) + ".pdf", "wb") as file:
@@ -29,12 +28,19 @@ def downloadFile(url, downloadPath, fileName):
 
 def checkLink(url, listPath):
     ## Check if the link is already in the list
-    with open(listPath + "\\List.txt", "a") as file:
-        for line in listPath + "\\List.txt":
+    List = []
+    with open(listPath + "\\List.txt", "r") as file:
+        for line in file:
             if url != str(line):
-                file.write(url)
+                List.append(line)
             else:
                 pass      
+    file.close()
+    with open(listPath + "\\List.txt", "w") as file:
+        for element in List:
+            file.write(element)
+        file.write("\n")
+        file.write(url)
     file.close()
     return
 
@@ -48,5 +54,3 @@ checkLink(Link, listPath)
 downloadFile(Link, downloadPath, fileName)
 print('File downloaded...')
 print('Exiting program...')
-
-pdb.set_trace()
