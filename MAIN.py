@@ -1,6 +1,6 @@
 # from VSCODE
 import pdb
-import os, sys
+import os, sys, time
 import requests
 
 print("FIRST TRY")
@@ -31,7 +31,7 @@ def checkLink(url, listPath):
     with open(listPath + "\\List.txt", "r") as file:
         for line in file:
             if url != str(line.strip()):
-                Li%st.append(line)
+                List.append(line)
             else:
                 pass           
     file.close()
@@ -49,14 +49,15 @@ def checkLink(url, listPath):
 ## START LOGIC PART
 # print(sys.argv[0])
 
-listPath = "C:\Windows\Temp" #C:\\Users\\PBottin\\Desktop"
-downloadPath = "C:\Windows\Temp" #"C:\\Users\\PBottin\\Desktop"
+listPath = "C:\\Windows\\Temp" #C:\\Users\\PBottin\\Desktop"
+downloadPath = "C:\\Windows\\Temp" #"C:\\Users\\PBottin\\Desktop"
 
 if len(sys.argv) == 1: ## Doppio click, non vengono dati parametri aggiuntivi ma unico parametro è percorso file
     MODE = "icon"
     Link = str(input("Inserisci il link dei documenti che ti interessano: \n"))
     if len(Link) == 0: ## Se premo solo invio (stringa vuota) funziona come in avvio
         MODE = "start"
+        Link = ""
 else: ## Start
     MODE = "start"
 
@@ -79,6 +80,7 @@ if MODE == "icon":
 with open(listPath + "\\List.txt", "r") as fileList:
     for line in fileList:
         downloadFile(line, downloadPath, fileName)
+        time.sleep(1)
 
 print('File downloaded...')
 print('Exiting program...')
